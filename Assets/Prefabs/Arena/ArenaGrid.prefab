@@ -55,6 +55,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ArenaGridPiecesCache: []
+  ArenaWallPiecesCache: []
+  isInitiated: 0
 --- !u!114 &114447873109803294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,6 +87,8 @@ MonoBehaviour:
   ArenaWidth: 20
   ArenaHeight: 10
   ArenaGridPiece: {fileID: 1668226216808042, guid: 93880661b6c41b84fad25f3a55d8fec4,
+    type: 2}
+  ArenaWallPiece: {fileID: 1547144625315942, guid: 3567f2d2a1dbb1e4d8ecefa7755a5cb7,
     type: 2}
 --- !u!114 &114658996341261332
 MonoBehaviour:

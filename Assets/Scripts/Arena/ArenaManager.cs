@@ -9,7 +9,10 @@ namespace Arena
     public class ArenaManager : MonoBehaviour
     {
         public List<GameObject> ArenaGridPiecesCache;
+        public List<GameObject> ArenaWallPiecesCache;
 
+        public bool isInitiated = false;
+        
         private bool isVertical = true;
 
         private int GetMaxHeight()
@@ -35,15 +38,38 @@ namespace Arena
         private List<GameObject> FindHorizontalLane(int coordX, int coordY)
         {
             return ArenaGridPiecesCache
-                .Where(
-                    ap => ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY == coordY &&
+                .Where(ap =>
+                    ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY == coordY &&
                     ap.GetComponentInChildren<ArenaGridPiece>().CoordinateX <= GetMaxWidth() &&
                     ap.GetComponentInChildren<ArenaGridPiece>().CoordinateX >= 0
                 ).ToList();
         }
 
+        internal List<GameObject> GetVerticalEdges()
+        {
+            return ArenaGridPiecesCache
+                .Where(ap =>
+                ap.GetComponentInChildren<ArenaGridPiece>().CoordinateX == 0 ||
+                ap.GetComponentInChildren<ArenaGridPiece>().CoordinateX == GetMaxWidth()
+                ).ToList();
+        }
+
+        internal List<GameObject> GetHorizontalEdges()
+        {
+            return ArenaGridPiecesCache
+                .Where(ap =>
+                ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY == 0 ||
+                ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY == GetMaxHeight()
+                ).ToList();
+        }
+
         internal void HandleUserClick(int coordX, int coordY)
         {
+            if (!isInitiated)
+            {
+                return;
+            }
+
             if (isVertical)
             {
                 foreach (var piece in FindVerticalLane(coordX, coordY))
@@ -67,6 +93,16 @@ namespace Arena
             this.isVertical = isVertical;
         }
 
+        public ArenaGridPiece GetRandomArenaGridPiece()
+        {
+
+            return ArenaGridPiecesCache[UnityEngine.Random.Range(0, ArenaGridPiecesCache.Count)]
+                .GetComponentInChildren<ArenaGridPiece>();              
+        }
+        public void InitComplete()
+        {
+            isInitiated = true;
+        }
     }
 }
 

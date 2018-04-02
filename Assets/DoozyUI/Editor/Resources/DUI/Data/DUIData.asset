@@ -126,6 +126,7 @@ MonoBehaviour:
         m_Value: 0
     - categoryName: MainScene
       itemNames:
+      - DropBall
       - SwitchDirection
       isExpanded:
         m_Target: 1
