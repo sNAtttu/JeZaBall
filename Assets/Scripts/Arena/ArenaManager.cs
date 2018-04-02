@@ -99,6 +99,25 @@ namespace Arena
             return ArenaGridPiecesCache[UnityEngine.Random.Range(0, ArenaGridPiecesCache.Count)]
                 .GetComponentInChildren<ArenaGridPiece>();              
         }
+
+        public ArenaGridPiece GetRandomArenaGridPieceWithinWalls()
+        {
+            List<GameObject> verticalEdges = GetVerticalEdges();
+            List<GameObject> horizontalEdges = GetHorizontalEdges();
+
+            List<GameObject> piecesWithinWalls = new List<GameObject>();
+
+            ArenaGridPiecesCache.ForEach(p =>
+            {
+                if(!verticalEdges.Contains(p) && !horizontalEdges.Contains(p))
+                {
+                    piecesWithinWalls.Add(p);
+                }
+            });
+            return piecesWithinWalls[UnityEngine.Random.Range(0, piecesWithinWalls.Count)]
+                .GetComponentInChildren<ArenaGridPiece>();
+        }
+
         public void InitComplete()
         {
             isInitiated = true;
