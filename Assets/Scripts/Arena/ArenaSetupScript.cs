@@ -37,8 +37,8 @@ namespace Arena
                         ArenaGridPiece.transform.rotation,
                         gameObject.transform);
 
-                    createdPiece.GetComponent<ArenaGridPiece>().CoordinateX = j;
-                    createdPiece.GetComponent<ArenaGridPiece>().CoordinateY = i;
+                    createdPiece.GetComponentInChildren<ArenaGridPiece>().CoordinateX = j;
+                    createdPiece.GetComponentInChildren<ArenaGridPiece>().CoordinateY = i;
                     createdObjects.Add(createdPiece);
                     spawnPosition.x++;
                 }

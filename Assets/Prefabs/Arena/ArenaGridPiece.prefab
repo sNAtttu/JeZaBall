@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33509774079406940}
   - component: {fileID: 23336500737903720}
   - component: {fileID: 65048809503334758}
+  - component: {fileID: 114735101548548008}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -37,7 +38,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4502705826868076}
-  - component: {fileID: 114964562859836402}
   m_Layer: 0
   m_Name: ArenaGridPiece
   m_TagString: Untagged
@@ -126,12 +126,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114964562859836402
+--- !u!114 &114735101548548008
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1668226216808042}
+  m_GameObject: {fileID: 1453396101321556}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f49ef61d6f2576468c2ae6bb98ae125, type: 3}
