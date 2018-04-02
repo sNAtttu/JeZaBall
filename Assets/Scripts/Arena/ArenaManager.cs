@@ -10,6 +10,8 @@ namespace Arena
     {
         public List<GameObject> ArenaGridPiecesCache;
 
+        private bool isVertical = true;
+
         private int GetMaxHeight()
         {
             return ArenaGridPiecesCache.Max(ap => ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY);
@@ -42,7 +44,6 @@ namespace Arena
 
         internal void HandleUserClick(int coordX, int coordY)
         {
-            bool isVertical = false;
             if (isVertical)
             {
                 foreach (var piece in FindVerticalLane(coordX, coordY))
@@ -60,6 +61,12 @@ namespace Arena
                 }
             }
         }
+
+        public void SwitchDirection(bool isVertical)
+        {
+            this.isVertical = isVertical;
+        }
+
     }
 }
 
