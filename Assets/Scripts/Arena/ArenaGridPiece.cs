@@ -24,6 +24,14 @@ namespace Arena
             }
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(collision.gameObject.tag == Utilities.Constants.TagBall)
+            {
+                Debug.Log($"Ball is at X: {CoordinateX} Y: {CoordinateY}");
+            }
+        }
+
     }
 }
 

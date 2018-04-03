@@ -9,6 +9,7 @@ namespace Utilities
         public static readonly string TagArena = "Arena";
         public static readonly string TagSwitchDirectionImage = "SwitchDirectionImage";
         public static readonly string TagStartGameBtn = "StartGameBtn";
+        public static readonly string TagBall = "Ball";
     }
 }
 
