@@ -8,16 +8,24 @@ namespace Arena
     public class WallCreationScript : MonoBehaviour
     {
         [Tooltip("Time between wall pieces")]
-        public float WallPieceCreateDelay = 0.1f;
+        public float WallPieceCreateDelay = 0.2f;
 
         [Tooltip("Arena wall piece which are created to the edges")]
         public GameObject ArenaWallPiece;
 
         private GameObject ArenaGrid;
+        private GameObject WallHittedMiddleOfCreation = null;
+
+        private bool creatingWall = false;
 
         private void Start()
         {
             ArenaGrid = GameObject.FindGameObjectWithTag(Utilities.Constants.TagArena);
+        }
+
+        public void SetWallHittedOnCreation(GameObject wall)
+        {
+            WallHittedMiddleOfCreation = wall;
         }
 
         public void RemovePiecesHorizontal(int coordX, int coordY, bool removeDownSide, 
@@ -126,9 +134,11 @@ namespace Arena
             handler.CoordinateY = y;
 
             handler.WallType = isNewDownWall ? Utilities.WallType.Bottom : Utilities.WallType.Top;
+            handler.WallState = Utilities.WallState.Creating;
 
             return createdWallPiece;
         }
+
         private GameObject CreateVerticalWallPiece(GameObject piece, bool isNewLeftWall)
         {
 
@@ -147,6 +157,7 @@ namespace Arena
             handler.CoordinateY = y;
 
             handler.WallType = isNewLeftWall ? Utilities.WallType.Left : Utilities.WallType.Right;
+            handler.WallState = Utilities.WallState.Creating;
 
             return createdWallPiece;
         }
@@ -156,16 +167,38 @@ namespace Arena
     List<GameObject> wallPiecesCache)
         {
             List<GameObject> objectsCreated = new List<GameObject>();
+
+            creatingWall = true;
+
             foreach (var piece in piecesToBeCreated)
             {
-                CreateHorizontalWallPiece(piece, removeDownSide);
+
+                if (WallHittedMiddleOfCreation != null &&
+                    objectsCreated.Any(o =>
+                    o.GetComponentInChildren<WallHandler>().CoordinateX == WallHittedMiddleOfCreation.GetComponentInChildren<WallHandler>().CoordinateX &&
+                     o.GetComponentInChildren<WallHandler>().CoordinateY == WallHittedMiddleOfCreation.GetComponentInChildren<WallHandler>().CoordinateY
+                    ))
+                {
+                    for (int i = 0; i < objectsCreated.Count; i++)
+                    {
+                        Destroy(objectsCreated[i]);
+                    }
+                    objectsCreated = null;
+                    yield break;
+                }
+
+                objectsCreated.Add(CreateHorizontalWallPiece(piece, removeDownSide));
                 yield return new WaitForSeconds(WallPieceCreateDelay);
             }
-            arenaPiecesCache.AddRange(objectsCreated);
-            if (removeAfterSuccess)
+
+            objectsCreated.ForEach(wp => wp.GetComponentInChildren<WallHandler>().WallState = Utilities.WallState.Created);
+
+            wallPiecesCache.AddRange(objectsCreated);
+            if (removeAfterSuccess && !creatingWall && WallHittedMiddleOfCreation == null)
             {
                 RemoveUnnecessaryHorizontalPieces(coordY, removeDownSide, arenaPiecesCache, wallPiecesCache);
             }
+            creatingWall = false;
         }
 
         IEnumerator CreateVerticalWallPieces(List<GameObject> piecesToBeCreated, bool removeLeftSide,
@@ -173,16 +206,36 @@ namespace Arena
             List<GameObject> wallPiecesCache)
         {
             List<GameObject> objectsCreated = new List<GameObject>();
+
+            creatingWall = true;
+
             foreach (var piece in piecesToBeCreated)
             {
-                CreateVerticalWallPiece(piece, removeLeftSide);
+                if(WallHittedMiddleOfCreation != null &&
+                    objectsCreated.Any(o => 
+                    o.GetComponentInChildren<WallHandler>().CoordinateX == WallHittedMiddleOfCreation.GetComponentInChildren<WallHandler>().CoordinateX &&
+                     o.GetComponentInChildren<WallHandler>().CoordinateY == WallHittedMiddleOfCreation.GetComponentInChildren<WallHandler>().CoordinateY
+                    ))
+                {
+                    for (int i = 0; i < objectsCreated.Count; i++)
+                    {
+                        Destroy(objectsCreated[i]);
+                    }
+                    objectsCreated = null;
+                    yield break;
+                }
+                objectsCreated.Add(CreateVerticalWallPiece(piece, removeLeftSide));
                 yield return new WaitForSeconds(WallPieceCreateDelay);
             }
-            arenaPiecesCache.AddRange(objectsCreated);
-            if (removeAfterSuccess)
+
+            objectsCreated.ForEach(wp => wp.GetComponentInChildren<WallHandler>().WallState = Utilities.WallState.Created);
+
+            wallPiecesCache.AddRange(objectsCreated);
+            if (removeAfterSuccess && !creatingWall && WallHittedMiddleOfCreation == null)
             {
                 RemoveUnnecessaryVerticalPieces(coordX, removeLeftSide, arenaPiecesCache, wallPiecesCache);
             }
+            creatingWall = false;
         }
     }
 }

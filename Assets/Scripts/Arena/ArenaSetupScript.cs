@@ -91,6 +91,7 @@ namespace Arena
             handler.CoordinateX = x;
             handler.CoordinateY = y;
             handler.WallType = ArenaUtilities.GetWallType(x, y, piecesCache);
+            handler.WallState = Utilities.WallState.Created;
 
             createdWallPieces.Add(createdWallPiece);
         }
