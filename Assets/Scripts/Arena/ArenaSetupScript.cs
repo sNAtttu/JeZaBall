@@ -25,7 +25,7 @@ namespace Arena
         {
             arenaManager = GetComponent<ArenaManager>();
             CreateArenaGrid(ArenaWidth, ArenaHeight);
-            CreateArenaWalls();
+            CreateArenaWalls(arenaManager.ArenaGridPiecesCache);
         }
 
         private void CreateArenaGrid(int width, int height)
@@ -52,22 +52,25 @@ namespace Arena
             arenaManager.ArenaGridPiecesCache = createdObjects;
         }
 
-        private void CreateArenaWalls()
+        private void CreateArenaWalls(List<GameObject> arenaGridPieces)
         {
             List<GameObject> createdWallPieces = new List<GameObject>();
-            foreach (var horizontalEdgePiece in arenaManager.GetHorizontalEdges())
+            foreach (var horizontalEdgePiece in ArenaUtilities.GetHorizontalEdges(arenaGridPieces))
             {
-                CreateWallPiece(createdWallPieces, horizontalEdgePiece);
+                CreateWallPiece(createdWallPieces, horizontalEdgePiece, arenaGridPieces);
             }
 
-            foreach (var verticalEdgePiece in arenaManager.GetVerticalEdges())
+            foreach (var verticalEdgePiece in ArenaUtilities.GetVerticalEdges(arenaGridPieces))
             {
-                CreateWallPiece(createdWallPieces, verticalEdgePiece);
+                CreateWallPiece(createdWallPieces, verticalEdgePiece, arenaGridPieces);
             }
             arenaManager.ArenaWallPiecesCache = createdWallPieces;
         }
 
-        private void CreateWallPiece(List<GameObject> createdWallPieces, GameObject verticalEdgePiece)
+        private void CreateWallPiece(
+            List<GameObject> createdWallPieces,
+            GameObject verticalEdgePiece, 
+            List<GameObject> piecesCache)
         {
             Vector3 spawnPosition = new Vector3(
                 verticalEdgePiece.transform.position.x,
@@ -87,7 +90,7 @@ namespace Arena
 
             handler.CoordinateX = x;
             handler.CoordinateY = y;
-            handler.WallType = arenaManager.GetWallType(x, y);
+            handler.WallType = ArenaUtilities.GetWallType(x, y, piecesCache);
 
             createdWallPieces.Add(createdWallPiece);
         }

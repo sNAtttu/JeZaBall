@@ -17,7 +17,9 @@ namespace Ball
             {
                 arenaManager = FindObjectOfType<ArenaManager>();
             }
-            Vector3 spawnPiecePosition = arenaManager.GetRandomArenaGridPieceWithinWalls().transform.position;
+            Vector3 spawnPiecePosition = ArenaUtilities
+                .GetRandomArenaGridPieceWithinWalls(arenaManager.ArenaGridPiecesCache)
+                .transform.position;
             Vector3 ballSpawnPosition = new Vector3(spawnPiecePosition.x,
                 spawnPiecePosition.y + Ball.transform.localScale.y,
                 spawnPiecePosition.z);

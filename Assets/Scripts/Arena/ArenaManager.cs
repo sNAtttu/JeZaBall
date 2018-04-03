@@ -15,9 +15,11 @@ namespace Arena
         public List<GameObject> ArenaWallPiecesCache;
 
         private GameObject ArenaGrid;
+        private List<BallManager> ballManagers;
 
         private void Start()
         {
+            ballManagers = new List<BallManager>();
             ArenaGrid = GameObject.FindGameObjectWithTag(Utilities.Constants.TagArena);
         }
 
@@ -25,52 +27,14 @@ namespace Arena
         
         private bool isVertical = true;
 
-        private int GetMaxHeight()
+        private bool IsBallLeftOfTheLane(int coordX)
         {
-            return ArenaGridPiecesCache.Max(ap => ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY);
+            return ballManagers.Any(b => b.CurrentCoordX < coordX);
         }
 
-        private int GetMaxWidth()
+        private bool IsBallRightOfTheLane(int coordX)
         {
-            return ArenaGridPiecesCache.Max(ap => ap.GetComponentInChildren<ArenaGridPiece>().CoordinateX);
-        }
-
-        private List<GameObject> FindVerticalLane(int coordX, int coordY)
-        {
-            return ArenaGridPiecesCache
-                .Where(
-                    ap => ap.GetComponentInChildren<ArenaGridPiece>().CoordinateX == coordX &&
-                    ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY <= GetMaxHeight() &&
-                    ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY >= 0
-                ).ToList();
-        }
-
-        private List<GameObject> FindHorizontalLane(int coordX, int coordY)
-        {
-            return ArenaGridPiecesCache
-                .Where(ap =>
-                    ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY == coordY &&
-                    ap.GetComponentInChildren<ArenaGridPiece>().CoordinateX <= GetMaxWidth() &&
-                    ap.GetComponentInChildren<ArenaGridPiece>().CoordinateX >= 0
-                ).ToList();
-        }
-
-        internal List<GameObject> GetVerticalEdges()
-        {
-            return ArenaGridPiecesCache
-                .Where(ap =>
-                ap.GetComponentInChildren<ArenaGridPiece>().CoordinateX == 0 ||
-                ap.GetComponentInChildren<ArenaGridPiece>().CoordinateX == GetMaxWidth()
-                ).ToList();
-        }
-
-        internal List<GameObject> GetHorizontalEdges()
-        {
-            return ArenaGridPiecesCache
-                .Where(ap =>
-                ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY == 0 ||
-                ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY == GetMaxHeight()
-                ).ToList();
+            return ballManagers.Any(b => b.CurrentCoordX > coordX);
         }
 
         internal void HandleUserClick(int coordX, int coordY)
@@ -80,28 +44,42 @@ namespace Arena
                 return;
             }
 
+            if(ballManagers.Count == 0)
+            {
+                ballManagers = FindObjectsOfType<BallManager>().ToList();
+            }
+
             if (isVertical)
             {
-                foreach (var piece in FindVerticalLane(coordX, coordY))
+                bool ballIsOnRightSide = true;
+                foreach (var pieceToDestroy in ArenaUtilities.FindPiecesOutsideOfVerticalLane(coordX, 
+                    ballIsOnRightSide, ArenaGridPiecesCache))
                 {
-                    CreateWallPiece(piece);
-                    Destroy(piece);
-                    ArenaGridPiecesCache.Remove(piece);
+                    Destroy(pieceToDestroy);
+                    ArenaGridPiecesCache.Remove(pieceToDestroy);
+                }
+                foreach (var wallToDestroy in ArenaUtilities.FindWallPiecesOutsideOfVerticalLane(coordX, ballIsOnRightSide, ArenaWallPiecesCache))
+                {
+                    Destroy(wallToDestroy);
+                    ArenaWallPiecesCache.Remove(wallToDestroy);
+                }
+                foreach (var piece in ArenaUtilities.FindVerticalLane(coordX, coordY, ArenaGridPiecesCache))
+                {
+                    CreateVerticalWallPiece(piece, ballIsOnRightSide);
                 }
             }
             else
             {
-                foreach (var piece in FindHorizontalLane(coordX, coordY))
-                {
-                    CreateWallPiece(piece);
-                    Destroy(piece);
-                    ArenaGridPiecesCache.Remove(piece);
-                }
+
             }
         }
 
-        private void CreateWallPiece(GameObject piece)
+        private void CreateVerticalWallPiece(GameObject piece, bool isNewLeftWall)
         {
+
+            int x = piece.GetComponentInChildren<ArenaGridPiece>().CoordinateX;
+            int y = piece.GetComponentInChildren<ArenaGridPiece>().CoordinateY;
+
             Vector3 wallSpawnPosition = new Vector3(
                 piece.transform.position.x,
                 piece.transform.position.y + (piece.GetComponentInChildren<Transform>().localScale.y * 2),
@@ -112,64 +90,19 @@ namespace Arena
                 ArenaWallPiece.transform.rotation,
                 ArenaGrid.transform);
 
-            Debug.Log(createdWallPiece.tag);
+            WallHandler handler = createdWallPiece.GetComponentInChildren<WallHandler>();
+
+            handler.CoordinateX = x;
+            handler.CoordinateY = y;
+
+            handler.WallType = isNewLeftWall ? Utilities.WallType.Left : Utilities.WallType.Right;
 
             ArenaWallPiecesCache.Add(createdWallPiece);
-        }
-
-        internal Utilities.WallType GetWallType(int coordX, int coordY)
-        {
-            if(coordX == 0)
-            {
-                return Utilities.WallType.Left;
-            }
-            else if(coordX == GetMaxWidth())
-            {
-                return Utilities.WallType.Right;
-            }
-            else if(coordY == 0)
-            {
-                return Utilities.WallType.Bottom;
-            }
-            else if(coordY == GetMaxHeight())
-            {
-                return Utilities.WallType.Top;
-            }
-            else
-            {
-                Debug.LogWarning($"Unknown wall X:{coordX} Y:{coordY}");
-                return Utilities.WallType.Top;
-            }
         }
 
         public void SwitchDirection(bool isVertical)
         {
             this.isVertical = isVertical;
-        }
-
-        public ArenaGridPiece GetRandomArenaGridPiece()
-        {
-
-            return ArenaGridPiecesCache[UnityEngine.Random.Range(0, ArenaGridPiecesCache.Count)]
-                .GetComponentInChildren<ArenaGridPiece>();              
-        }
-
-        public ArenaGridPiece GetRandomArenaGridPieceWithinWalls()
-        {
-            List<GameObject> verticalEdges = GetVerticalEdges();
-            List<GameObject> horizontalEdges = GetHorizontalEdges();
-
-            List<GameObject> piecesWithinWalls = new List<GameObject>();
-
-            ArenaGridPiecesCache.ForEach(p =>
-            {
-                if(!verticalEdges.Contains(p) && !horizontalEdges.Contains(p))
-                {
-                    piecesWithinWalls.Add(p);
-                }
-            });
-            return piecesWithinWalls[UnityEngine.Random.Range(0, piecesWithinWalls.Count)]
-                .GetComponentInChildren<ArenaGridPiece>();
         }
 
         public void InitComplete()
