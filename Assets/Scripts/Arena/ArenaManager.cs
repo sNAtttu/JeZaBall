@@ -8,8 +8,18 @@ namespace Arena
 {
     public class ArenaManager : MonoBehaviour
     {
+        [Tooltip("Arena wall piece which are created to the edges")]
+        public GameObject ArenaWallPiece;
+
         public List<GameObject> ArenaGridPiecesCache;
         public List<GameObject> ArenaWallPiecesCache;
+
+        private GameObject ArenaGrid;
+
+        private void Start()
+        {
+            ArenaGrid = GameObject.FindGameObjectWithTag(Utilities.Constants.TagArena);
+        }
 
         public bool isInitiated = false;
         
@@ -74,6 +84,7 @@ namespace Arena
             {
                 foreach (var piece in FindVerticalLane(coordX, coordY))
                 {
+                    CreateWallPiece(piece);
                     Destroy(piece);
                     ArenaGridPiecesCache.Remove(piece);
                 }
@@ -82,10 +93,28 @@ namespace Arena
             {
                 foreach (var piece in FindHorizontalLane(coordX, coordY))
                 {
+                    CreateWallPiece(piece);
                     Destroy(piece);
                     ArenaGridPiecesCache.Remove(piece);
                 }
             }
+        }
+
+        private void CreateWallPiece(GameObject piece)
+        {
+            Vector3 wallSpawnPosition = new Vector3(
+                piece.transform.position.x,
+                piece.transform.position.y + (piece.GetComponentInChildren<Transform>().localScale.y * 2),
+                piece.transform.position.z
+            );
+            GameObject createdWallPiece = Instantiate(ArenaWallPiece,
+                wallSpawnPosition,
+                ArenaWallPiece.transform.rotation,
+                ArenaGrid.transform);
+
+            Debug.Log(createdWallPiece.tag);
+
+            ArenaWallPiecesCache.Add(createdWallPiece);
         }
 
         internal Utilities.WallType GetWallType(int coordX, int coordY)

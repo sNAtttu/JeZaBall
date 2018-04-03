@@ -54,6 +54,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8904ed761dd99c24d88fcc16929c97f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ArenaWallPiece: {fileID: 1547144625315942, guid: 3567f2d2a1dbb1e4d8ecefa7755a5cb7,
+    type: 2}
   ArenaGridPiecesCache: []
   ArenaWallPiecesCache: []
   isInitiated: 0
@@ -567,4 +569,4 @@ MonoBehaviour:
     handleAnimatorMove: 0
     handleAnimatorIK: 0
   fsmTemplate: {fileID: 0}
-  eventHandlerComponentsAdded: 0
+  eventHandlerComponentsAdded: 1
