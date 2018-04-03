@@ -11,6 +11,7 @@ namespace Arena
         public int CoordinateY;
 
         private ArenaManager arenaManager;
+
         // For debugging
         private void OnMouseOver()
         {
@@ -28,7 +29,8 @@ namespace Arena
         {
             if(collision.gameObject.tag == Utilities.Constants.TagBall)
             {
-                Debug.Log($"Ball is at X: {CoordinateX} Y: {CoordinateY}");
+                collision.gameObject.GetComponentInParent<BallManager>().CurrentCoordX = CoordinateX;
+                collision.gameObject.GetComponentInParent<BallManager>().CurrentCoordY = CoordinateY;
             }
         }
 

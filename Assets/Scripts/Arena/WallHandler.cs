@@ -9,9 +9,14 @@ namespace Arena
         public int CoordinateX;
         public int CoordinateY;
 
+        public Utilities.WallType WallType;
+
         private void OnCollisionEnter(Collision collision)
         {
-            Debug.Log($"Ball hit: {CoordinateX} {CoordinateY}");
+            if(collision.transform.tag == Utilities.Constants.TagBall)
+            {
+                collision.transform.GetComponentInParent<BallMovement>().ChangeMovementDirection(WallType);
+            }
         }
     }
 }

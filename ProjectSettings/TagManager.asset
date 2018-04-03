@@ -9,6 +9,7 @@ TagManager:
   - StartGameBtn
   - Ball
   - Wall
+  - GridPiece
   layers:
   - Default
   - TransparentFX

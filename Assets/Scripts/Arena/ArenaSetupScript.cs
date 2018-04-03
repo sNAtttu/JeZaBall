@@ -57,43 +57,39 @@ namespace Arena
             List<GameObject> createdWallPieces = new List<GameObject>();
             foreach (var horizontalEdgePiece in arenaManager.GetHorizontalEdges())
             {
-                Vector3 spawnPosition = new Vector3(
-                    horizontalEdgePiece.transform.position.x,
-                    horizontalEdgePiece.transform.position.y + (ArenaGridPiece.transform.localScale.y * 2),
-                    horizontalEdgePiece.transform.position.z
-                    );
-
-                GameObject createdWallPiece = Instantiate(ArenaWallPiece,
-                    spawnPosition,
-                    ArenaWallPiece.transform.rotation,
-                    gameObject.transform);
-
-                createdWallPiece.GetComponentInChildren<WallHandler>().CoordinateX = horizontalEdgePiece.GetComponentInChildren<ArenaGridPiece>().CoordinateX;
-                createdWallPiece.GetComponentInChildren<WallHandler>().CoordinateY = horizontalEdgePiece.GetComponentInChildren<ArenaGridPiece>().CoordinateY;
-
-                createdWallPieces.Add(createdWallPiece);
+                CreateWallPiece(createdWallPieces, horizontalEdgePiece);
             }
 
             foreach (var verticalEdgePiece in arenaManager.GetVerticalEdges())
             {
-                Vector3 spawnPosition = new Vector3(
-                    verticalEdgePiece.transform.position.x,
-                    verticalEdgePiece.transform.position.y + (ArenaGridPiece.transform.localScale.y * 2),
-                    verticalEdgePiece.transform.position.z
-                    );
-
-                GameObject createdWallPiece = Instantiate(ArenaWallPiece,
-                    spawnPosition,
-                    ArenaWallPiece.transform.rotation,
-                    gameObject.transform);
-
-                createdWallPiece.GetComponentInChildren<WallHandler>().CoordinateX = verticalEdgePiece.GetComponentInChildren<ArenaGridPiece>().CoordinateX;
-                createdWallPiece.GetComponentInChildren<WallHandler>().CoordinateY = verticalEdgePiece.GetComponentInChildren<ArenaGridPiece>().CoordinateY;
-
-                createdWallPieces.Add(createdWallPiece);
+                CreateWallPiece(createdWallPieces, verticalEdgePiece);
             }
             arenaManager.ArenaWallPiecesCache = createdWallPieces;
         }
 
+        private void CreateWallPiece(List<GameObject> createdWallPieces, GameObject verticalEdgePiece)
+        {
+            Vector3 spawnPosition = new Vector3(
+                verticalEdgePiece.transform.position.x,
+                verticalEdgePiece.transform.position.y + (ArenaGridPiece.transform.localScale.y * 2),
+                verticalEdgePiece.transform.position.z
+                );
+
+            GameObject createdWallPiece = Instantiate(ArenaWallPiece,
+                spawnPosition,
+                ArenaWallPiece.transform.rotation,
+                gameObject.transform);
+
+            WallHandler handler = createdWallPiece.GetComponentInChildren<WallHandler>();
+
+            int x = verticalEdgePiece.GetComponentInChildren<ArenaGridPiece>().CoordinateX;
+            int y = verticalEdgePiece.GetComponentInChildren<ArenaGridPiece>().CoordinateY;
+
+            handler.CoordinateX = x;
+            handler.CoordinateY = y;
+            handler.WallType = arenaManager.GetWallType(x, y);
+
+            createdWallPieces.Add(createdWallPiece);
+        }
     }
 }

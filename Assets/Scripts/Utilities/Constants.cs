@@ -11,6 +11,13 @@ namespace Utilities
         public static readonly string TagStartGameBtn = "StartGameBtn";
         public static readonly string TagBall = "Ball";
         public static readonly string TagWall = "Wall";
+        public static readonly string TagGridPiece = "GridPiece";
     }
+
+    public enum WallType
+    {
+        Left, Right, Bottom, Top
+    }
+
 }
 

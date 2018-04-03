@@ -88,6 +88,31 @@ namespace Arena
             }
         }
 
+        internal Utilities.WallType GetWallType(int coordX, int coordY)
+        {
+            if(coordX == 0)
+            {
+                return Utilities.WallType.Left;
+            }
+            else if(coordX == GetMaxWidth())
+            {
+                return Utilities.WallType.Right;
+            }
+            else if(coordY == 0)
+            {
+                return Utilities.WallType.Bottom;
+            }
+            else if(coordY == GetMaxHeight())
+            {
+                return Utilities.WallType.Top;
+            }
+            else
+            {
+                Debug.LogWarning($"Unknown wall X:{coordX} Y:{coordY}");
+                return Utilities.WallType.Top;
+            }
+        }
+
         public void SwitchDirection(bool isVertical)
         {
             this.isVertical = isVertical;
