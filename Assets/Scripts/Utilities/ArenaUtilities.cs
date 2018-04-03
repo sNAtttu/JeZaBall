@@ -91,9 +91,10 @@ namespace Arena
             }
         }
 
-        internal static List<GameObject> FindWallPiecesOutsideOfVerticalLane(int coordX, bool ballIsOnRight, List<GameObject> arenaWallPieces)
+        internal static List<GameObject> FindWallPiecesOutsideOfVerticalLane(int coordX,
+            bool leftSide, List<GameObject> arenaWallPieces)
         {
-            if (ballIsOnRight)
+            if (leftSide)
             {
                 return arenaWallPieces
                     .Where(
@@ -111,10 +112,10 @@ namespace Arena
             }
         }
 
-        internal static List<GameObject> FindPiecesOutsideOfVerticalLane(int coordX, bool ballIsOnRight,
+        internal static List<GameObject> FindPiecesOutsideOfVerticalLane(int coordX, bool leftSide,
             List<GameObject> arenaPieces)
         {
-            if (ballIsOnRight)
+            if (leftSide)
             {
                 return arenaPieces
                     .Where(
@@ -127,6 +128,48 @@ namespace Arena
                 return arenaPieces
                     .Where(
                         ap => ap.GetComponentInChildren<ArenaGridPiece>().CoordinateX > coordX
+                    )
+                    .ToList();
+            }
+        }
+
+        internal static List<GameObject> FindPiecesOutsideOfHorizontalLane(int coordY, bool downSide,
+    List<GameObject> arenaPieces)
+        {
+            if (downSide)
+            {
+                return arenaPieces
+                    .Where(
+                        ap => ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY < coordY
+                    )
+                    .ToList();
+            }
+            else
+            {
+                return arenaPieces
+                    .Where(
+                        ap => ap.GetComponentInChildren<ArenaGridPiece>().CoordinateY > coordY
+                    )
+                    .ToList();
+            }
+        }
+
+        internal static List<GameObject> FindWallPiecesOutsideOfHorizontalLane(int coordY, bool downSide,
+List<GameObject> arenaWallPieces)
+        {
+            if (downSide)
+            {
+                return arenaWallPieces
+                    .Where(
+                        ap => ap.GetComponentInChildren<WallHandler>().CoordinateY < coordY
+                    )
+                    .ToList();
+            }
+            else
+            {
+                return arenaWallPieces
+                    .Where(
+                        ap => ap.GetComponentInChildren<WallHandler>().CoordinateY > coordY
                     )
                     .ToList();
             }
