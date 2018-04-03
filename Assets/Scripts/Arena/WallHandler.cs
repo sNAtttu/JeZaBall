@@ -10,6 +10,7 @@ namespace Arena
         public int CoordinateY;
 
         public Utilities.WallType WallType;
+        public Utilities.WallState WallState;
 
         private void OnCollisionEnter(Collision collision)
         {

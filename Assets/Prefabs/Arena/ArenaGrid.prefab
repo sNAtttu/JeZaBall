@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4820237382000342}
   - component: {fileID: 114603150109134976}
   - component: {fileID: 114239048073580980}
+  - component: {fileID: 114783946390627208}
   - component: {fileID: 114658996341261332}
   - component: {fileID: 114447873109803294}
   m_Layer: 0
@@ -54,8 +55,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8904ed761dd99c24d88fcc16929c97f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArenaWallPiece: {fileID: 1547144625315942, guid: 3567f2d2a1dbb1e4d8ecefa7755a5cb7,
-    type: 2}
   ArenaGridPiecesCache: []
   ArenaWallPiecesCache: []
   isInitiated: 0
@@ -570,3 +569,17 @@ MonoBehaviour:
     handleAnimatorIK: 0
   fsmTemplate: {fileID: 0}
   eventHandlerComponentsAdded: 1
+--- !u!114 &114783946390627208
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1551143501192626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b3b80b66aaa57409a5922495b045df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WallPieceCreateDelay: 0.1
+  ArenaWallPiece: {fileID: 1547144625315942, guid: 3567f2d2a1dbb1e4d8ecefa7755a5cb7,
+    type: 2}

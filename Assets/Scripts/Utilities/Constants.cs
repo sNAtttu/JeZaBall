@@ -19,5 +19,10 @@ namespace Utilities
         Left, Right, Bottom, Top
     }
 
+    public enum WallState
+    {
+        Creating, Created
+    }
+
 }
 
