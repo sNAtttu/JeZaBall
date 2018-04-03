@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4419679501232022}
+  - component: {fileID: 114165419612263514}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -38,7 +39,6 @@ GameObject:
   - component: {fileID: 23139859923471892}
   - component: {fileID: 54883936287862838}
   - component: {fileID: 135112743497922518}
-  - component: {fileID: 114431858340027098}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Ball
@@ -130,17 +130,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114431858340027098
+--- !u!114 &114165419612263514
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1569173560704318}
+  m_GameObject: {fileID: 1203852649612418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3269f8dfdc0c9b5458e40e0135972dc3, type: 3}
+  m_Script: {fileID: 11500000, guid: c3187a2bf9a618441861710a3d60926f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxSpeed: 10
 --- !u!135 &135112743497922518
 SphereCollider:
   m_ObjectHideFlags: 1

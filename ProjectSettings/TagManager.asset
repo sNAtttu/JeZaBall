@@ -8,6 +8,7 @@ TagManager:
   - SwitchDirectionImage
   - StartGameBtn
   - Ball
+  - Wall
   layers:
   - Default
   - TransparentFX

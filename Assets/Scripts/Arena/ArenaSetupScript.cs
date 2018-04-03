@@ -68,6 +68,9 @@ namespace Arena
                     ArenaWallPiece.transform.rotation,
                     gameObject.transform);
 
+                createdWallPiece.GetComponentInChildren<WallHandler>().CoordinateX = horizontalEdgePiece.GetComponentInChildren<ArenaGridPiece>().CoordinateX;
+                createdWallPiece.GetComponentInChildren<WallHandler>().CoordinateY = horizontalEdgePiece.GetComponentInChildren<ArenaGridPiece>().CoordinateY;
+
                 createdWallPieces.Add(createdWallPiece);
             }
 
@@ -83,6 +86,9 @@ namespace Arena
                     spawnPosition,
                     ArenaWallPiece.transform.rotation,
                     gameObject.transform);
+
+                createdWallPiece.GetComponentInChildren<WallHandler>().CoordinateX = verticalEdgePiece.GetComponentInChildren<ArenaGridPiece>().CoordinateX;
+                createdWallPiece.GetComponentInChildren<WallHandler>().CoordinateY = verticalEdgePiece.GetComponentInChildren<ArenaGridPiece>().CoordinateY;
 
                 createdWallPieces.Add(createdWallPiece);
             }
