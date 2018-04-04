@@ -12,6 +12,12 @@ namespace Utilities
         public static readonly string TagBall = "Ball";
         public static readonly string TagWall = "Wall";
         public static readonly string TagGridPiece = "GridPiece";
+
+        public static class Ball
+        {
+            public static readonly string EventHitWall = "HitWall";
+            public static readonly string EventChangeDirection = "ChangeDirection";
+        }
     }
 
     public enum WallType

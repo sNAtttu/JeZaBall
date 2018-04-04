@@ -7,10 +7,17 @@ public class BallMovement : MonoBehaviour
     public Vector3 StartDirection;
     public float MaxSpeed = 10f;
 
+    private static PlayMakerFSM ballFsm;
+
     private Vector3 BallMovementDirection;
+    private Rigidbody ballBody;
+    
+    private bool ballIsChangingDirection = false; 
 
     private void Start()
     {
+        ballFsm = GetComponent<PlayMakerFSM>();
+        ballBody = GetComponentInChildren<Rigidbody>();
         BallMovementDirection = StartDirection;
     }
 
@@ -21,7 +28,7 @@ public class BallMovement : MonoBehaviour
 
     private void MoveBall(Vector3 direction)
     {
-        gameObject.transform.Translate(direction * Time.deltaTime * MaxSpeed);
+        ballBody.velocity = (direction * MaxSpeed);
     }
 
     public void ChangeMovementDirection(Utilities.WallType wallHitted)
@@ -44,6 +51,12 @@ public class BallMovement : MonoBehaviour
                 Debug.LogWarning("Unknown wall type");
                 break;
         }
+        SendBallFsmEvent(Utilities.Constants.Ball.EventChangeDirection);
+    }
+
+    public static void SendBallFsmEvent(string fsmEvent)
+    {
+        ballFsm.SendEvent(fsmEvent);
     }
 
 }
