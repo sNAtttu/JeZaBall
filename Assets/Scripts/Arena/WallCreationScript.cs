@@ -128,6 +128,8 @@ namespace Arena
                 ArenaWallPiece.transform.rotation,
                 ArenaGrid.transform);
 
+            WallHandler.PlayTriggerAnimation("Spawn");
+
             WallHandler handler = createdWallPiece.GetComponentInChildren<WallHandler>();
 
             handler.CoordinateX = x;
@@ -150,6 +152,8 @@ namespace Arena
                 wallSpawnPosition,
                 ArenaWallPiece.transform.rotation,
                 ArenaGrid.transform);
+
+            WallHandler.PlayTriggerAnimation("Spawn");
 
             WallHandler handler = createdWallPiece.GetComponentInChildren<WallHandler>();
 

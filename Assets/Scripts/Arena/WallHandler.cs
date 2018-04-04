@@ -12,7 +12,14 @@ namespace Arena
         public Utilities.WallType WallType;
         public Utilities.WallState WallState;
 
+        private static Animator wallAnimator;
+
         private WallCreationScript wallCreation;
+
+        private void Start()
+        {
+            wallAnimator = GetComponent<Animator>();
+        }
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -31,5 +38,11 @@ namespace Arena
                 collision.transform.GetComponentInParent<BallMovement>().ChangeMovementDirection(WallType);
             }
         }
+
+        public static void PlayTriggerAnimation(string trigger)
+        {
+            wallAnimator.SetTrigger(trigger);
+        }
+
     }
 }

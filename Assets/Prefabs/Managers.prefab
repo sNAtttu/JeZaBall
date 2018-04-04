@@ -691,8 +691,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 66
-        y: 100
+        x: 77
+        y: 102
         width: 138
         height: 32
       isBreakpoint: 0
@@ -1113,7 +1113,7 @@ MonoBehaviour:
     locked: 0
     manualUpdate: 0
     keepDelayedEventsOnStateExit: 0
-    preprocessed: 1
+    preprocessed: 0
     ExposedEvents: []
     RestartOnEnable: 1
     EnableDebugFlow: 0
