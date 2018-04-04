@@ -11,8 +11,6 @@ public class BallMovement : MonoBehaviour
 
     private Vector3 BallMovementDirection;
     private Rigidbody ballBody;
-    
-    private bool ballIsChangingDirection = false; 
 
     private void Start()
     {
@@ -54,7 +52,7 @@ public class BallMovement : MonoBehaviour
         SendBallFsmEvent(Utilities.Constants.Ball.EventChangeDirection);
     }
 
-    public static void SendBallFsmEvent(string fsmEvent)
+    public void SendBallFsmEvent(string fsmEvent)
     {
         ballFsm.SendEvent(fsmEvent);
     }

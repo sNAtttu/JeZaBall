@@ -18,7 +18,8 @@ namespace Arena
         {
             if(collision.transform.tag == Utilities.Constants.TagBall)
             {
-                BallMovement.SendBallFsmEvent(Utilities.Constants.Ball.EventHitWall);
+                collision.transform.GetComponentInParent<BallMovement>()
+                    .SendBallFsmEvent(Utilities.Constants.Ball.EventHitWall);
                 if(WallState == Utilities.WallState.Creating)
                 {
                     if(wallCreation == null)
