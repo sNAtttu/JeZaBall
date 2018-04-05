@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 23717375302557560}
   - component: {fileID: 114099335870844240}
   - component: {fileID: 65828366564877130}
+  - component: {fileID: 54711458928568528}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -114,13 +115,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1814963654304698}
   m_Mesh: {fileID: 4300000, guid: f1f5fdfb8cd3c6a449068d4f414614fc, type: 3}
+--- !u!54 &54711458928568528
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1814963654304698}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!65 &65828366564877130
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1814963654304698}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c2e68064b5f026f4a9fe3735f8b79ca3, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

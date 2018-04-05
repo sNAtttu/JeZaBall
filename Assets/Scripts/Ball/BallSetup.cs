@@ -8,7 +8,7 @@ namespace Ball
     public class BallSetup : MonoBehaviour
     {
         public GameObject Ball;
-
+        public float BallSpawnHeight;
         private ArenaManager arenaManager;
 
         public void SpawnBall()
@@ -21,7 +21,7 @@ namespace Ball
                 .GetRandomArenaGridPieceWithinWalls(arenaManager.ArenaGridPiecesCache)
                 .transform.position;
             Vector3 ballSpawnPosition = new Vector3(spawnPiecePosition.x,
-                spawnPiecePosition.y + Ball.transform.localScale.y,
+                spawnPiecePosition.y + BallSpawnHeight,
                 spawnPiecePosition.z);
 
             Instantiate(Ball, ballSpawnPosition, Ball.transform.rotation);
